@@ -114,7 +114,15 @@ class AmazonPAS extends CFRuntime
 			throw new PAS_Exception('No Amazon Associates ID was passed into the constructor, nor was it set in the AWS_ASSOC_ID constant.');
 		}
 
-		return parent::__construct($key, $secret_key, null, $assoc_id);
+		// StephaneGourichon changed here.
+		$this->assoc_id=$assoc_id;
+		//return parent::__construct($key, $secret_key, null, $assoc_id);
+		return parent::__construct(
+					   array(
+						 'key' => $key,
+						 'secret' => $secret_key
+						 )
+					   );
 	}
 
 
@@ -163,7 +171,7 @@ class AmazonPAS extends CFRuntime
 	{
 		return $this->pas_authenticate($action, $opt);
 	}
-	
+
 	public function pas_authenticate($action, $opt = null)
 	{
 		// Was this set with set_locale()?
@@ -217,7 +225,7 @@ class AmazonPAS extends CFRuntime
 		{
 			$hostname = $this->hostname;
 		}
-		
+
 		$method_arguments = func_get_args();
 
 		// Use the caching flow to determine if we need to do a round-trip to the server.
