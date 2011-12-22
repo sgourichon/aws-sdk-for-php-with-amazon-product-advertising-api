@@ -144,7 +144,7 @@ class RequestCore
 	/**
 	 * The state of SSL certificate verification.
 	 */
-	public $ssl_verification = true;
+	public $ssl_verification = false;
 
 	/**
 	 * The user-defined callback function to call when a stream is read from.
@@ -619,7 +619,7 @@ class RequestCore
 		curl_setopt($curl_handle, CURLOPT_READFUNCTION, array($this, 'streaming_read_callback'));
 
 		// Verification of the SSL cert
-		if ($this->ssl_verification)
+		if($this->ssl_verification)
 		{
 			curl_setopt($curl_handle, CURLOPT_SSL_VERIFYPEER, true);
 			curl_setopt($curl_handle, CURLOPT_SSL_VERIFYHOST, true);

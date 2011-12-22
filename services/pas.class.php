@@ -87,42 +87,21 @@ class AmazonPAS extends CFRuntime
 	 * Access:
 	 * 	public
 	 *
-	 * Parameters:
-	 * 	$key - _string_ (Optional) Your Amazon API Key. If blank, it will look for the <AWS_KEY> constant.
-	 * 	$secret_key - _string_ (Optional) Your Amazon API Secret Key. If blank, it will look for the <AWS_SECRET_KEY> constant.
-	 * 	$assoc_id - _string_ (Optional) Your Amazon Associates ID. If blank, it will look for the <AWS_ASSOC_ID> constant.
+	 * @param array $options (Optional) An associative array of parameters that can have the following keys: <ul>
+	 * 	<li><code>assoc_id</code> - <code>string</code> - The associate id of the Amazon Product Adversing Service.</li>
+	 * 	<li><code>key</code> - <code>string</code> - Optional - Your AWS key, or a session key. If blank, the default credential set will be used.</li>
+	 * 	<li><code>secret</code> - <code>string</code> - Optional - Your AWS secret key, or a session secret key. If blank, the default credential set will be used.</li>
 	 *
 	 * Returns:
 	 * 	_boolean_ false if no valid values are set, otherwise true.
+         * 
+         * @author      Modified by Antoine
 	 */
-	public function __construct($key = null, $secret_key = null, $assoc_id = null)
+	public function __construct(array $options = array())
 	{
 		$this->api_version = '2010-06-01';
-
-		if (!$key && !defined('AWS_KEY'))
-		{
-			throw new PAS_Exception('No account key was passed into the constructor, nor was it set in the AWS_KEY constant.');
-		}
-
-		if (!$secret_key && !defined('AWS_SECRET_KEY'))
-		{
-			throw new PAS_Exception('No account secret was passed into the constructor, nor was it set in the AWS_SECRET_KEY constant.');
-		}
-
-		if (!$assoc_id && !defined('AWS_ASSOC_ID'))
-		{
-			throw new PAS_Exception('No Amazon Associates ID was passed into the constructor, nor was it set in the AWS_ASSOC_ID constant.');
-		}
-
-		// StephaneGourichon changed here.
-		$this->assoc_id=$assoc_id;
-		//return parent::__construct($key, $secret_key, null, $assoc_id);
-		return parent::__construct(
-					   array(
-						 'key' => $key,
-						 'secret' => $secret_key
-						 )
-					   );
+		$this->assoc_id=$options['assoc_id'];
+                return parent::__construct($options);
 	}
 
 
